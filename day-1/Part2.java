@@ -39,27 +39,29 @@ public class Part2 {
             char firstNum = 'Z';
             char lastNum = 'Z';
 
-            for(int j=0; j<obscuredCalibration.length(); j++){
-                char ch = obscuredCalibration.charAt(j);
-                    if(Character.isDigit(ch)){
+            while(obscuredCalibration.length() > 0){
+                char ch = obscuredCalibration.charAt(0);
+                if(Character.isDigit(ch)){
+                    if(!foundFirst){
+                        firstNum = ch;
+                        foundFirst = true;
+                    } else{
+                        lastNum = ch;
+                    }
+                } else {
+                    char num = checkWordedNumber(obscuredCalibration);
+                    if(num != ' '){
                         if(!foundFirst){
-                            firstNum = ch;
+                            firstNum = num;
                             foundFirst = true;
                         } else{
-                            lastNum = ch;
+                            lastNum = num;
                         }
-                    } else {
-                        char num = checkWordedNumber(obscuredCalibration, j);
-                        if(num != ' '){
-                            if(!foundFirst){
-                                firstNum = num;
-                                foundFirst = true;
-                            } else{
-                                lastNum = num;
-                            }
-                        }
-
                     }
+                }
+
+                obscuredCalibration = obscuredCalibration.substring(1);
+                
             }
 
             if(lastNum == 'Z'){
@@ -73,83 +75,50 @@ public class Part2 {
 
         System.out.println(solution);
     }
- 
-    private char checkWordedNumber(String obscuredCombination, int index){
-        int lineLength = obscuredCombination.length();
-        char ch = obscuredCombination.charAt(index);
-        char result = ' ';
-        switch(ch) {
+
+    private char checkWordedNumber(String obscuredCombination){
+        char firstChar = obscuredCombination.charAt(0);
+
+        switch(firstChar){
             case 'o':
-              if((index+3) > lineLength){break;}
+                if(obscuredCombination.startsWith("one")){
+                    return '1';
+                }
 
-              String checkOne = obscuredCombination.substring(index, index+3);
-              if(checkOne.equals("one")){
-                result = '1';
-              }
-                break;
             case 't':
-              if((index+3) > lineLength){break;}
+                if(obscuredCombination.startsWith("two")){
+                    return '2';
+                } else if(obscuredCombination.startsWith("three")){
+                    return '3';
+                }
 
-              String checkTwo = obscuredCombination.substring(index, index+3);
-              if(checkTwo.equals("two")){
-                result = '2';
-              } else {
-                    if((index+5) > lineLength){break;}
-
-                    String checkThree = obscuredCombination.substring(index, index+5);
-                    if(checkThree.equals("three")){
-                        result = '3';
-                    }
-              }
-                break;
             case 'f':
-              if((index+4) > lineLength){break;}
+                if(obscuredCombination.startsWith("four")){
+                    return '4';
+                } else if(obscuredCombination.startsWith("five")){
+                    return '5';
+                }
 
-              String checkFour = obscuredCombination.substring(index, index+4);
-              if(checkFour.equals("four")){
-                result = '4';
-              } else{
-                    if((index+4) > lineLength){break;}
-
-                    String checkFive = obscuredCombination.substring(index, index+4);
-                    if(checkFive.equals("five")){
-                        result = '5';
-                    }
-              }
-                break;
             case 's':
-              if((index+3) > lineLength){break;}
+                if(obscuredCombination.startsWith("six")){
+                    return '6';
+                } else if(obscuredCombination.startsWith("seven")){
+                    return '7';
+                }
 
-              String checkSix = obscuredCombination.substring(index, index+3);
-              if(checkSix.equals("six")){
-                result = '6';
-              } else{
-                    if((index+5) > lineLength){break;}
-
-                    String checkSeven = obscuredCombination.substring(index, index+5);
-                    if(checkSeven.equals("seven")){
-                        result = '7';
-                    }
-              }
-                break;
             case 'e':
-              if((index+5) > lineLength){break;}
-              String checkEight = obscuredCombination.substring(index, index+5);
-              if(checkEight.equals("eight")){
-                result = '8';
-              }
-                break;
+                if(obscuredCombination.startsWith("eight")){
+                    return '8';
+                }
+            
             case 'n':
-              if((index+4) > lineLength){break;}
-              String checkNine = obscuredCombination.substring(index, index+4);
-              if(checkNine.equals("nine")){
-                result = '9';
-              }
+                if(obscuredCombination.startsWith("nine")){
+                    return '9';
+                }
+
             default:
-                break;
-          }
-          
-          return result;
+                return ' ';
+        }
     }
 
     public static void main(String[] args) {
