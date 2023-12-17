@@ -255,7 +255,6 @@ public class Part2 {
             index++;
         }
 
-        System.out.println(stringBuilder.toString());
         int partNumber = Integer.parseInt(stringBuilder.toString());
 
         return partNumber;
